@@ -1,1 +1,3 @@
-console.log('hello');
+import { createMDfiles } from './services/notion/createMDfiles';
+
+createMDfiles();
