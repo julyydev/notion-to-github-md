@@ -1,6 +1,7 @@
 import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { createMDwithChildrenBlock } from './createMDwithChildrenBlock';
 import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
+import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
 
 const createParagraphMD = async (block: BlockObjectResponse, depth: number) => {
     if (block.type === 'paragraph') {
@@ -159,8 +160,18 @@ const createBookmarkMD = async (block: BlockObjectResponse, depth: number) => {
 const createImageMD = async (block: BlockObjectResponse, depth: number) => {
     // TODO:
     if (block.type === 'image') {
-        // console.log(block);
-        return 'image(미구현)';
+        console.log(block);
+        const mds: string[] = [];
+        if (block.image.type === 'file') {
+            console.log(block.image);
+            mds.push('![');
+            if (block.image.caption.length !== 0)
+                mds.push(block.image.caption[0].plain_text);
+            mds.push('](');
+            mds.push(await getGoogleDriveUrl(block.image.file.url, block.id)); // TODO: 구글 드라이브에 업로드 후 url 반환
+            mds.push(')');
+        }
+        return mds.join('');
     }
 };
 

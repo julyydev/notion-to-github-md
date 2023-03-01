@@ -9,6 +9,7 @@ export const getEditedPageList = async () => {
     });
 
     response.results.forEach(page => {
+        console.log(page);
         if ('properties' in page) {
             if ('상태' in page.properties) {
                 if (page.properties.상태.type === 'status') {
@@ -30,7 +31,7 @@ export const getEditedPageList = async () => {
         }
     });
 
-    console.log(editedPageList.length + '건의 업데이트가 발견되었습니다.');
+    console.log(editedPageList.length + '건의 글을 배포합니다.');
 
     return editedPageList;
 };

@@ -6,6 +6,7 @@ import fs from 'fs';
 export const createMDfiles = async () => {
     const editedPageList = await getEditedPageList();
     for (const edited of editedPageList) {
+        console.log(`[${editedPageList.indexOf(edited) + 1}] ${edited.title}`);
         fs.writeFileSync('res/' + edited.title + '.md', '', 'utf8');
         const response = await notion.blocks.children.list({
             block_id: edited.id,
@@ -23,5 +24,6 @@ export const createMDfiles = async () => {
                 }
             }
         }
+        console.log('markdown 파일 생성 완료.\n');
     }
 };
