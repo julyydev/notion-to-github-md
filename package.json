@@ -4,9 +4,12 @@
     "main": "src/app.ts",
     "license": "MIT",
     "dependencies": {
+        "@googleapis/drive": "^4.0.0",
         "@notionhq/client": "^2.2.2",
         "@types/node": "^18.11.14",
+        "axios": "^1.2.1",
         "dotenv": "^16.0.3",
+        "googleapis": "^109.0.1",
         "typescript": "^4.9.4"
     },
     "devDependencies": {
