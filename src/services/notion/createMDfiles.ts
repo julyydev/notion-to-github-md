@@ -3,6 +3,8 @@ import { createMDFrontMatter } from './createMDFrontMatter';
 import { createMDwithBlock } from './createMDwithBlock';
 import { getEditedPageList } from './getEditedPageList';
 import fs from 'fs';
+import { updatePageStatus } from './updatePageStatus';
+import { PageStatus } from '../../constants/pageStatus';
 
 export const createMDfiles = async () => {
     const editedPageList = await getEditedPageList();
@@ -11,7 +13,6 @@ export const createMDfiles = async () => {
         console.log(`[${editedPageList.indexOf(page) + 1}] ${page.title}`);
         fs.writeFileSync('res/' + page.slug + '.md', '', 'utf8');
 
-        //TODO: front matter 생성 로직 추가
         const frontMatter = await createMDFrontMatter(page);
         fs.appendFileSync('res/' + page.slug + '.md', frontMatter, 'utf8');
 
@@ -30,5 +31,7 @@ export const createMDfiles = async () => {
                 }
             }
         }
+
+        updatePageStatus(page.id, PageStatus.DEPLOYED);
     }
 };

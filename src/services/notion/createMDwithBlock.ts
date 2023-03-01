@@ -161,7 +161,6 @@ const createImageMD = async (block: BlockObjectResponse, depth: number) => {
     if (block.type === 'image') {
         const mds: string[] = [];
         if (block.image.type === 'file') {
-            console.log(block.image);
             mds.push('![');
             if (block.image.caption.length !== 0)
                 mds.push(block.image.caption[0].plain_text);

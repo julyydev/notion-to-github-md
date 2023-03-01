@@ -26,7 +26,6 @@ export const getEditedPageList = async () => {
     });
 
     for (const page of response.results) {
-        console.log(page);
         if (
             // check page properties validation
             'properties' in page &&
@@ -47,7 +46,6 @@ export const getEditedPageList = async () => {
                 page.properties.category.select !== null &&
                 page.properties.thumbnail.files.length !== 0
             ) {
-                console.log(page.properties.thumbnail.files);
                 editedPageList.push({
                     id: page.id,
                     title: page.properties.title.title[0].plain_text.replace(
