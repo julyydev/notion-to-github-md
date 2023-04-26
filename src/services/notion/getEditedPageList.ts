@@ -1,6 +1,6 @@
 import { notion } from '../../config/notion';
 import { PageStatus } from '../../constants/pageStatus';
-import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
+import { getS3Url } from '../aws/getS3Url';
 
 export interface EditedPageProperties {
     id: string;
@@ -60,7 +60,7 @@ export const getEditedPageList = async () => {
                             ? ''
                             : page.properties.series.select.name,
                     tag: page.properties.tag.multi_select.map(t => t.name),
-                    thumbnail: await getGoogleDriveUrl(
+                    thumbnail: await getS3Url(
                         page.properties.thumbnail.files[0].file.url,
                         'thumbnail',
                     ),

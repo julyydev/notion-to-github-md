@@ -1,7 +1,7 @@
 import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { createMDwithChildrenBlock } from './createMDwithChildrenBlock';
 import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
-import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
+import { getS3Url } from '../aws/getS3Url';
 
 const createParagraphMD = async (block: BlockObjectResponse, depth: number) => {
     if (block.type === 'paragraph') {
@@ -165,7 +165,7 @@ const createImageMD = async (block: BlockObjectResponse, depth: number) => {
             if (block.image.caption.length !== 0)
                 mds.push(block.image.caption[0].plain_text);
             mds.push('](');
-            mds.push(await getGoogleDriveUrl(block.image.file.url, block.id));
+            mds.push(await getS3Url(block.image.file.url, block.id));
             mds.push(')');
         }
         return mds.join('');
