@@ -19,16 +19,23 @@ export const createMDfiles = async () => {
         const response = await notion.blocks.children.list({
             block_id: page.id,
         });
+        let image_index = 1;
         for (const block of response.results) {
-            if ('type' in block) {
-                const markdownString = await createMDwithBlock(block, 0);
-                if (markdownString !== undefined) {
-                    fs.appendFileSync(
-                        'res/' + page.slug + '.md',
-                        markdownString + '\n\n',
-                        'utf8',
-                    );
-                }
+            if (!('type' in block)) continue;
+
+            const markdownString = await createMDwithBlock(
+                block,
+                0,
+                page.slug,
+                image_index,
+            );
+            if (block.type === 'image') image_index++;
+            if (markdownString !== undefined) {
+                fs.appendFileSync(
+                    'res/' + page.slug + '.md',
+                    markdownString + '\n\n',
+                    'utf8',
+                );
             }
         }
 

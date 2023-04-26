@@ -62,7 +62,7 @@ export const getEditedPageList = async () => {
                     tag: page.properties.tag.multi_select.map(t => t.name),
                     thumbnail: await getS3Url(
                         page.properties.thumbnail.files[0].file.url,
-                        'thumbnail',
+                        `${page.properties.slug.rich_text[0].plain_text}_0`,
                     ),
                     date: new Intl.DateTimeFormat('ko', {
                         dateStyle: 'medium',

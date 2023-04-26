@@ -10,7 +10,7 @@ export const createMDwithChildrenBlock = async (
     mds.push('    '.repeat(depth));
     for (const block of response.results) {
         if ('type' in block) {
-            const md = await createMDwithBlock(block, depth);
+            const md = await createMDwithBlock(block, depth, '', 0);
             md !== undefined && mds.push(md);
         }
     }

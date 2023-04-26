@@ -3,7 +3,12 @@ import { createMDwithChildrenBlock } from './createMDwithChildrenBlock';
 import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
 import { getS3Url } from '../aws/getS3Url';
 
-const createParagraphMD = async (block: BlockObjectResponse, depth: number) => {
+const createParagraphMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'paragraph') {
         const mds: string[] = [];
         mds.push(convertRichTextToMD(block.paragraph.rich_text));
@@ -11,7 +16,12 @@ const createParagraphMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createHeading1MD = async (block: BlockObjectResponse, depth: number) => {
+const createHeading1MD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'heading_1') {
         const mds: string[] = [];
         mds.push('# ');
@@ -20,7 +30,12 @@ const createHeading1MD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createHeading2MD = async (block: BlockObjectResponse, depth: number) => {
+const createHeading2MD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'heading_2') {
         const mds: string[] = [];
         mds.push('## ');
@@ -29,7 +44,12 @@ const createHeading2MD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createHeading3MD = async (block: BlockObjectResponse, depth: number) => {
+const createHeading3MD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'heading_3') {
         const mds: string[] = [];
         mds.push('### ');
@@ -41,6 +61,8 @@ const createHeading3MD = async (block: BlockObjectResponse, depth: number) => {
 const createBulletedListItemMD = async (
     block: BlockObjectResponse,
     depth: number,
+    slug: string,
+    index: number,
 ) => {
     if (block.type === 'bulleted_list_item') {
         const mds: string[] = [];
@@ -57,6 +79,8 @@ const createBulletedListItemMD = async (
 const createNumberedListItemMD = async (
     block: BlockObjectResponse,
     depth: number,
+    slug: string,
+    index: number,
 ) => {
     if (block.type === 'numbered_list_item') {
         const mds: string[] = [];
@@ -70,7 +94,12 @@ const createNumberedListItemMD = async (
     }
 };
 
-const createQuoteMD = async (block: BlockObjectResponse, depth: number) => {
+const createQuoteMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'quote') {
         const mds: string[] = [];
         mds.push('> ');
@@ -79,7 +108,12 @@ const createQuoteMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createToDoMD = async (block: BlockObjectResponse, depth: number) => {
+const createToDoMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'to_do') {
         const mds: string[] = [];
         mds.push('- [');
@@ -89,7 +123,12 @@ const createToDoMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createToggleMD = async (block: BlockObjectResponse, depth: number) => {
+const createToggleMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'toggle') {
         const mds: string[] = [];
         mds.push('<details>\n<summary>');
@@ -103,14 +142,24 @@ const createToggleMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createEquationMD = async (block: BlockObjectResponse, depth: number) => {
+const createEquationMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     // TODO:
     if (block.type === 'equation') {
         return 'equation(미구현)';
     }
 };
 
-const createCodeMD = async (block: BlockObjectResponse, depth: number) => {
+const createCodeMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'code') {
         const mds: string[] = [];
         mds.push('```');
@@ -122,7 +171,12 @@ const createCodeMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createCalloutMD = async (block: BlockObjectResponse, depth: number) => {
+const createCalloutMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'callout') {
         const mds: string[] = [];
         mds.push('<aside>\n');
@@ -136,20 +190,35 @@ const createCalloutMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createDividerMD = async (block: BlockObjectResponse, depth: number) => {
+const createDividerMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'divider') {
         return '---';
     }
 };
 
-const createTableMD = async (block: BlockObjectResponse, depth: number) => {
+const createTableMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     // TODO:
     if (block.type === 'table') {
         return 'table(미구현)';
     }
 };
 
-const createBookmarkMD = async (block: BlockObjectResponse, depth: number) => {
+const createBookmarkMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     // TODO:
     if (block.type === 'bookmark') {
         // console.log(block);
@@ -157,7 +226,12 @@ const createBookmarkMD = async (block: BlockObjectResponse, depth: number) => {
     }
 };
 
-const createImageMD = async (block: BlockObjectResponse, depth: number) => {
+const createImageMD = async (
+    block: BlockObjectResponse,
+    depth: number,
+    slug: string,
+    index: number,
+) => {
     if (block.type === 'image') {
         const mds: string[] = [];
         if (block.image.type === 'file') {
@@ -165,7 +239,7 @@ const createImageMD = async (block: BlockObjectResponse, depth: number) => {
             if (block.image.caption.length !== 0)
                 mds.push(block.image.caption[0].plain_text);
             mds.push('](');
-            mds.push(await getS3Url(block.image.file.url, block.id));
+            mds.push(await getS3Url(block.image.file.url, `${slug}_${index}`));
             mds.push(')');
         }
         return mds.join('');
@@ -175,6 +249,8 @@ const createImageMD = async (block: BlockObjectResponse, depth: number) => {
 const handleInvalidBlockType = async (
     block: BlockObjectResponse,
     depth: number,
+    slug: string,
+    index: number,
 ) => {
     console.log('유효하지 않은 block type 입니다: ' + block.type);
     return undefined;
@@ -219,6 +295,8 @@ const blockTypeMap = {
 export const createMDwithBlock = async (
     block: BlockObjectResponse,
     depth: number,
+    slug: string,
+    index: number,
 ) => {
-    return await blockTypeMap[block.type](block, depth);
+    return await blockTypeMap[block.type](block, depth, slug, index);
 };
