@@ -4,6 +4,7 @@
     "main": "src/app.ts",
     "license": "MIT",
     "dependencies": {
+        "@aws-sdk/client-s3": "^3.315.0",
         "@googleapis/drive": "^4.0.0",
         "@notionhq/client": "^2.2.2",
         "@types/node": "^18.11.14",
