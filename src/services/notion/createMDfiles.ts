@@ -5,6 +5,7 @@ import { getEditedPageList } from './getEditedPageList';
 import fs from 'fs';
 import { updatePageStatus } from './updatePageStatus';
 import { PageStatus } from '../../constants/pageStatus';
+import { deleteImages } from '../../utils/deleteImages';
 
 export const createMDfiles = async () => {
     const editedPageList = await getEditedPageList();
@@ -41,4 +42,6 @@ export const createMDfiles = async () => {
 
         updatePageStatus(page.id, PageStatus.DEPLOYED);
     }
+
+    deleteImages('res/image');
 };
