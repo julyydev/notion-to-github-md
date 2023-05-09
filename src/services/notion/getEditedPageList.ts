@@ -1,6 +1,9 @@
 import { notion } from '../../config/notion';
 import { PageStatus } from '../../constants/pageStatus';
+import globalConfig from '../../globalConfig';
+import printMessage from '../../message';
 import { getS3Url } from '../aws/getS3Url';
+import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
 
 export interface EditedPageProperties {
     id: string;
@@ -13,6 +16,27 @@ export interface EditedPageProperties {
     thumbnail: string;
     date: string;
 }
+
+const getThumbnail = async (page: any) => {
+    if (globalConfig.image.save === 'off') {
+        printMessage.imageOff();
+        return '이미지 저장 off';
+    }
+
+    let url = '';
+    if (globalConfig.image.uploadService === 'aws_s3') {
+        url = await getS3Url(
+            page.properties.thumbnail.files[0].file.url,
+            `${page.properties.slug.rich_text[0].plain_text}_0`,
+        );
+    } else if (globalConfig.image.uploadService === 'google_drive') {
+        url = await getGoogleDriveUrl(
+            page.properties.thumbnail.files[0].file.url,
+            `${page.properties.slug.rich_text[0].plain_text}_0`,
+        );
+    }
+    return url;
+};
 
 export const getEditedPageList = async () => {
     const editedPageList: EditedPageProperties[] = [];
@@ -60,10 +84,7 @@ export const getEditedPageList = async () => {
                             ? ''
                             : page.properties.series.select.name,
                     tag: page.properties.tag.multi_select.map(t => t.name),
-                    thumbnail: await getS3Url(
-                        page.properties.thumbnail.files[0].file.url,
-                        `${page.properties.slug.rich_text[0].plain_text}_0`,
-                    ),
+                    thumbnail: await getThumbnail(page),
                     date: new Intl.DateTimeFormat('ko', {
                         dateStyle: 'medium',
                     }).format(new Date()),

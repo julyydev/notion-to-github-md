@@ -2,6 +2,9 @@ import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { createMDwithChildrenBlock } from './createMDwithChildrenBlock';
 import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
 import { getS3Url } from '../aws/getS3Url';
+import globalConfig from '../../globalConfig';
+import printMessage from '../../message';
+import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
 
 const createParagraphMD = async (
     block: BlockObjectResponse,
@@ -233,13 +236,29 @@ const createImageMD = async (
     index: number,
 ) => {
     if (block.type === 'image') {
+        if (globalConfig.image.save === 'off') {
+            printMessage.imageOff();
+            return;
+        }
+
         const mds: string[] = [];
         if (block.image.type === 'file') {
             mds.push('![');
             if (block.image.caption.length !== 0)
                 mds.push(block.image.caption[0].plain_text);
             mds.push('](');
-            mds.push(await getS3Url(block.image.file.url, `${slug}_${index}`));
+            if (globalConfig.image.uploadService === 'aws_s3') {
+                mds.push(
+                    await getS3Url(block.image.file.url, `${slug}_${index}`),
+                );
+            } else if (globalConfig.image.uploadService === 'google_drive') {
+                mds.push(
+                    await getGoogleDriveUrl(
+                        block.image.file.url,
+                        `${slug}_${index}`,
+                    ),
+                );
+            }
             mds.push(')');
         }
         return mds.join('');
