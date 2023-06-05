@@ -9,6 +9,7 @@ export const createImage = async (notionImageUrl: string, imageId: string) => {
         responseType: 'stream',
     });
 
+    if (!fs.existsSync('res')) fs.mkdirSync('res');
     if (!fs.existsSync('res/image')) fs.mkdirSync('res/image');
     const writeStream = fs.createWriteStream(`res/image/${imageId}.png`);
     response.data.pipe(writeStream);
