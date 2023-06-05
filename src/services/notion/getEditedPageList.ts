@@ -36,7 +36,7 @@ export const getEditedPageList = async () => {
     const editedPageList: EditedPageProperties[] = [];
 
     const response = await notion.databases.query({
-        database_id: '2d03181f-721b-410a-a832-0192af606f35',
+        database_id: process.env.NOTION_DATABASE_ID as string,
         filter: {
             property: 'status',
             status: { equals: PageStatus.EDITED },
