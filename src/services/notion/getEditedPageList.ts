@@ -3,7 +3,6 @@ import { PageStatus } from '../../constants/pageStatus';
 import globalConfig from '../../globalConfig';
 import printMessage from '../../message';
 import { getS3Url } from '../aws/getS3Url';
-import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
 
 export interface EditedPageProperties {
     id: string;
@@ -26,11 +25,6 @@ const getThumbnail = async (page: any) => {
     let url = '';
     if (globalConfig.image.uploadService === 'aws_s3') {
         url = await getS3Url(
-            page.properties.thumbnail.files[0].file.url,
-            `${page.properties.slug.rich_text[0].plain_text}_0`,
-        );
-    } else if (globalConfig.image.uploadService === 'google_drive') {
-        url = await getGoogleDriveUrl(
             page.properties.thumbnail.files[0].file.url,
             `${page.properties.slug.rich_text[0].plain_text}_0`,
         );

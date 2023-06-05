@@ -1,5 +1,5 @@
 type OnOffType = 'on' | 'off';
-type ImageUploadServiceType = 'google_drive' | 'aws_s3';
+type ImageUploadServiceType = 'aws_s3';
 
 interface GlobalConfig {
     notion: OnOffType;

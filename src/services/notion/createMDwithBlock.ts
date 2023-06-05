@@ -4,7 +4,6 @@ import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
 import { getS3Url } from '../aws/getS3Url';
 import globalConfig from '../../globalConfig';
 import printMessage from '../../message';
-import { getGoogleDriveUrl } from '../google_drive/getGoogleDriveUrl';
 
 interface createMDParameter {
     block: BlockObjectResponse;
@@ -184,13 +183,6 @@ const createImageMD = async ({ block, slug, index }: createMDParameter) => {
 
         if (globalConfig.image.uploadService === 'aws_s3') {
             mds.push(await getS3Url(block.image.file.url, `${slug}_${index}`));
-        } else if (globalConfig.image.uploadService === 'google_drive') {
-            mds.push(
-                await getGoogleDriveUrl(
-                    block.image.file.url,
-                    `${slug}_${index}`,
-                ),
-            );
         }
 
         mds.push(')');
