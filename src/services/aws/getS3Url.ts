@@ -5,5 +5,5 @@ export const getS3Url = async (notionImageUrl: string, imageId: string) => {
     await createImage(notionImageUrl, imageId);
     const id = await uploadS3Image(imageId);
 
-    return `https://s3.ap-northeast-2.amazonaws.com/julyy.dev/${id}.png`;
+    return `https://s3.${process.env.AWS_S3_REGION}.amazonaws.com/${process.env.AWS_S3_BUCKET}/${id}.png`;
 };
