@@ -1,0 +1,30 @@
+name: Action Test
+
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 실행 환경을 Ubuntu 최신 버전으로 설정
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2  # 저장소 체크아웃
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2  # Node.js 설정
+        with:
+          node-version: '16'  # 원하는 Node.js 버전을 선택
+
+      - name: Install dependencies - 1
+        run: npm install
+
+      - name: Install dependencies - 2
+        run: npm ci  # package-lock.json을 사용하여 종속성 설치
+
+      - name: Build TypeScript
+        run: npm run build  # TypeScript 파일 빌드 스크립트 실행
+
+      - name: Run TypeScript
+        env:
+          CONFIG: ${{ secrets.CONFIG }}
+        run: node build/test/main.js  # 빌드된 JavaScript 파일 실행
