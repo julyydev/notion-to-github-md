@@ -1,8 +1,7 @@
 import { notion } from '../../config/notion';
 import { PageStatus } from '../../constants/pageStatus';
-import globalConfig from '../../globalConfig';
-import printMessage from '../../message';
 import { getS3Url } from '../aws/getS3Url';
+import config from '../../config';
 
 export interface EditedPageProperties {
     id: string;
@@ -17,13 +16,12 @@ export interface EditedPageProperties {
 }
 
 const getThumbnail = async (page: any) => {
-    if (globalConfig.image.save === 'off') {
-        printMessage.imageOff();
-        return '이미지 저장 off';
+    if (config.image.storage === 'github') {
+        return 'github 이미지';
     }
 
     let url = '';
-    if (globalConfig.image.uploadService === 'aws_s3') {
+    if (config.image.storage === 'aws_s3') {
         url = await getS3Url(
             page.properties.thumbnail.files[0].file.url,
             `${page.properties.slug.rich_text[0].plain_text}_0`,
@@ -36,7 +34,7 @@ export const getEditedPageList = async () => {
     const editedPageList: EditedPageProperties[] = [];
 
     const response = await notion.databases.query({
-        database_id: process.env.NOTION_DATABASE_ID as string,
+        database_id: config.notion.database_id as string,
         filter: {
             property: 'status',
             status: { equals: PageStatus.EDITED },

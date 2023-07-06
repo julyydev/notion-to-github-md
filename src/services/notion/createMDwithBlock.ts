@@ -2,8 +2,7 @@ import { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { createMDwithChildrenBlock } from './createMDwithChildrenBlock';
 import { convertRichTextToMD } from '../../utils/convertRichTextToMD';
 import { getS3Url } from '../aws/getS3Url';
-import globalConfig from '../../globalConfig';
-import printMessage from '../../message';
+import config from '../../config';
 
 interface createMDParameter {
     block: BlockObjectResponse;
@@ -169,8 +168,7 @@ const createBookmarkMD = async ({ block }: createMDParameter) => {
 const createImageMD = async ({ block, slug, index }: createMDParameter) => {
     if (block.type !== 'image') return;
 
-    if (globalConfig.image.save === 'off') {
-        printMessage.imageOff();
+    if (config.image.storage === 'github') {
         return;
     }
 
@@ -181,7 +179,7 @@ const createImageMD = async ({ block, slug, index }: createMDParameter) => {
             mds.push(block.image.caption[0].plain_text);
         mds.push('](');
 
-        if (globalConfig.image.uploadService === 'aws_s3') {
+        if (config.image.storage === 'aws_s3') {
             mds.push(await getS3Url(block.image.file.url, `${slug}_${index}`));
         }
 

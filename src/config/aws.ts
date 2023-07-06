@@ -1,12 +1,10 @@
 import { S3 } from '@aws-sdk/client-s3';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import config from '../config';
 
 export const aws_s3 = new S3({
-    region: process.env.AWS_S3_REGION,
+    region: config.image.aws_s3.region as string,
     credentials: {
-        accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID as string,
-        secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY as string,
+        accessKeyId: config.image.aws_s3.access_key_id as string,
+        secretAccessKey: config.image.aws_s3.secret_access_key as string,
     },
 });
