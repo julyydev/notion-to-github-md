@@ -25,7 +25,7 @@ jobs:
       - name: Run TypeScript
         env:
           CONFIG: ${{ secrets.CONFIG }}
-        run: node build/main.js  # 빌드된 JavaScript 파일 실행
+        run: node build/app.js  # 빌드된 JavaScript 파일 실행
 
       - name: Clone target repository
         env:
