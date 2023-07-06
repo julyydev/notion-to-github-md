@@ -33,7 +33,9 @@ jobs:
         run: |
           REPO=$(echo $CONFIG | jq -r '.github.repository')
           DIRECTORY=$(echo $CONFIG | jq -r '.github.directory')
-          MESSAGE=$(cat res/message.txt)
+          if [ -f "res/message.txt" ]; then
+            MESSAGE=$(cat res/message.txt)
+          fi
           git clone https://${{ secrets.TOKEN }}@github.com/${{ github.actor }}/$REPO.git
           mkdir -p $REPO/$DIRECTORY
           cp res/md/* $REPO/$DIRECTORY
