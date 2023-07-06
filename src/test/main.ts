@@ -1,12 +1,3 @@
-import dotenv from 'dotenv';
+import config from '../config';
 
-dotenv.config();
-
-console.log(process.env.CONFIG);
-
-const c = process.env.CONFIG;
-const config = JSON.parse(c as string);
-
-console.log(config.notion);
-console.log(config.github);
-console.log(config.nest);
+console.log(config);
