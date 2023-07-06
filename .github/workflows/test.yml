@@ -45,7 +45,7 @@ jobs:
           if [[ -n $(git status --porcelain) ]]; then
             # 변경 내용이 있는 경우 커밋
             git add .
-            git commit -m $MESSAGE
+            git commit -m "$MESSAGE"
             echo "포스팅 되었습니다."
             git push
           else
